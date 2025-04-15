@@ -3,6 +3,9 @@ import storeTimesRoutes from './routes/store-times';
 
 const fastify = Fastify({ logger: true });
 
+const PORT = process.env.PORT || 3000;
+const HOST = process.env.HOST || '0.0.0.0';
+
 fastify.register(storeTimesRoutes, { prefix: '/store-times' });
 
 fastify.all('/', (req, res) => {
@@ -15,7 +18,7 @@ fastify.all('/', (req, res) => {
   });
 });
 
-fastify.listen({ port: 3000 }, (err, address) => {
+fastify.listen({ port: Number(PORT), host: HOST }, (err, address) => {
   if (err) {
     fastify.log.error(err);
     process.exit(1);
