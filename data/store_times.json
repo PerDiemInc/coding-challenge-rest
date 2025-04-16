@@ -1,51 +1,51 @@
 [
   {
-    "id": "cc7eac4c-596f-41de-97b9-35209c97d90f",
+    "id": "86b1674b-299c-4c67-9ea0-75404fb76632",
     "day_of_week": 1,
-    "is_open": true,
-    "start_time": "09:00",
-    "end_time": "18:00"
-  },
-  {
-    "id": "b5ea2e65-69ac-4c63-8889-042736786da1",
-    "day_of_week": 2,
     "is_open": false,
     "start_time": null,
     "end_time": null
   },
   {
-    "id": "7de4c654-4b83-4ddf-9e11-0f03bd9e7129",
+    "id": "3a255954-5087-4078-bbdf-90308d1a15a4",
+    "day_of_week": 2,
+    "is_open": true,
+    "start_time": "09:00",
+    "end_time": "18:00"
+  },
+  {
+    "id": "4e00c74e-0b2c-41e5-b973-173942ae9095",
     "day_of_week": 3,
     "is_open": true,
     "start_time": "09:00",
     "end_time": "18:00"
   },
   {
-    "id": "41f045bc-17ea-4842-921d-0443a88aa0fc",
+    "id": "fefe7d06-ea2a-4535-8eb4-0976817b98a8",
     "day_of_week": 4,
+    "is_open": true,
+    "start_time": "09:00",
+    "end_time": "18:00"
+  },
+  {
+    "id": "a5c63a9b-68c6-4924-b2c1-79ea3855f0d7",
+    "day_of_week": 5,
     "is_open": false,
     "start_time": null,
     "end_time": null
   },
   {
-    "id": "4f047e59-8459-45d3-b0e0-fc6c9ea085fd",
-    "day_of_week": 5,
-    "is_open": true,
-    "start_time": "09:00",
-    "end_time": "18:00"
-  },
-  {
-    "id": "e847c83c-4b2d-4742-9cd2-95a531bb777c",
+    "id": "8e41ddf5-6495-48b1-98c0-d97f777fd567",
     "day_of_week": 6,
-    "is_open": true,
-    "start_time": "09:00",
-    "end_time": "18:00"
+    "is_open": false,
+    "start_time": null,
+    "end_time": null
   },
   {
-    "id": "1617d196-8e6e-4021-9c3c-a5c6729a4c5d",
+    "id": "3bb1731b-af5d-446c-a0ce-f743cb1fadac",
     "day_of_week": 7,
-    "is_open": true,
-    "start_time": "09:00",
-    "end_time": "18:00"
+    "is_open": false,
+    "start_time": null,
+    "end_time": null
   }
 ]

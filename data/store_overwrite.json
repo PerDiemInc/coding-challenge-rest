@@ -1,0 +1,58 @@
+[
+  {
+    "id": "27327da4-9dac-4c63-8237-8ef05333422a",
+    "day": 20,
+    "month": 4,
+    "is_open": false,
+    "end_time": "10:00",
+    "start_time": "10:00"
+  },
+  {
+    "id": "13dc8f40-f394-4992-8d1b-c06107bec967",
+    "day": 16,
+    "month": 2,
+    "is_open": true,
+    "end_time": "09:00",
+    "start_time": "09:00"
+  },
+  {
+    "id": "90bb4de9-3722-4b26-8289-9944a9c82313",
+    "day": 3,
+    "month": 11,
+    "is_open": false,
+    "end_time": "14:00",
+    "start_time": "14:00"
+  },
+  {
+    "id": "fb34b861-c56b-4358-8cff-b6afdfd7f2f2",
+    "day": 8,
+    "month": 1,
+    "is_open": true,
+    "end_time": "20:00",
+    "start_time": "19:00"
+  },
+  {
+    "id": "a0201f6c-f982-4dfa-9ae3-ba7d80abc1d0",
+    "day": 2,
+    "month": 8,
+    "is_open": false,
+    "end_time": "00:00",
+    "start_time": "00:00"
+  },
+  {
+    "id": "504ba2a0-9ee8-4dc3-9b63-883e17090e67",
+    "day": 21,
+    "month": 5,
+    "is_open": false,
+    "end_time": "02:00",
+    "start_time": "01:00"
+  },
+  {
+    "id": "559bb96e-2992-43d4-bb14-fefc920ba974",
+    "day": 2,
+    "month": 6,
+    "is_open": true,
+    "end_time": "23:00",
+    "start_time": "23:00"
+  }
+]
