@@ -23,11 +23,11 @@ async function writeData(data: StoreOverwrite[]) {
   await fs.writeFile(FILE_PATH, JSON.stringify(data, null, 2));
 }
 
-export default async function storeOverwriteRoutes(fastify: FastifyInstance) {
+export default async function storeOverwritesRoutes(fastify: FastifyInstance) {
   // 1. Get all store overwrites
   fastify.get('/', {
     schema: {
-      tags: ['store-overwrite'],
+      tags: ['store-overwrites'],
       description: 'Get all store overwrites',
       response: {
         200: {
@@ -54,7 +54,7 @@ export default async function storeOverwriteRoutes(fastify: FastifyInstance) {
   // Get store overwrite by id
   fastify.get('/:id', {
     schema: {
-      tags: ['store-overwrite'],
+      tags: ['store-overwrites'],
       description: 'Get store overwrite by ID',
       params: {
         type: 'object',
@@ -99,7 +99,7 @@ export default async function storeOverwriteRoutes(fastify: FastifyInstance) {
   // 2. Get store overwrite for specific date
   fastify.get('/date/:month/:day', {
     schema: {
-      tags: ['store-overwrite'],
+      tags: ['store-overwrites'],
       description: 'Get store overwrites for a specific date',
       params: {
         type: 'object',
@@ -149,7 +149,7 @@ export default async function storeOverwriteRoutes(fastify: FastifyInstance) {
   fastify.put('/:id', {
     schema: {
       description: 'Update a store overwrite by ID',
-      tags: ['store-overwrite'],
+      tags: ['store-overwrites'],
       params: {
         type: 'object',
         required: ['id'],
@@ -201,7 +201,7 @@ export default async function storeOverwriteRoutes(fastify: FastifyInstance) {
   // 4. Delete a store overwrite by ID
   fastify.delete('/:id', {
     schema: {
-      tags: ['store-overwrite'],
+      tags: ['store-overwrites'],
       description: 'Delete a store overwrite by ID',
       params: {
         type: 'object',
@@ -238,7 +238,7 @@ export default async function storeOverwriteRoutes(fastify: FastifyInstance) {
   // 5. Create a new store overwrite
   fastify.post('/', {
     schema: {
-      tags: ['store-overwrite'],
+      tags: ['store-overwrites'],
       description: 'Create a new store overwrite',
       body: {
         type: 'object',
