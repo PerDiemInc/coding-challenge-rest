@@ -29,12 +29,26 @@ export default async function storeTimesRoutes(fastify: FastifyInstance) {
     reply.send(data);
   });
 
+  // Get store time by id
+  fastify.get('/:id', async (request, reply) => {
+    const { id } = request.params as { id: string };
+    const data = await readData();
+    const filtered = data.filter(d => d.id === id);
+    if (!filtered.length) {
+      return reply.status(404).send({ message: 'Not found' });
+    }
+    return reply.send(filtered);
+  });
+
   // 2. Get store time for specific day
-  fastify.get('/:day_of_week', async (request, reply) => {
+  fastify.get('/day/:day_of_week', async (request, reply) => {
     const { day_of_week } = request.params as { day_of_week: string };
     const data = await readData();
     const filtered = data.filter(d => d.day_of_week === parseInt(day_of_week));
-    reply.send(filtered);
+    if (!filtered.length) {
+      return reply.status(404).send({ message: 'Not found' });
+    }
+    return reply.send(filtered);
   });
 
   // 3. Update a store time by ID

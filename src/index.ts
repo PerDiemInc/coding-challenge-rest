@@ -11,7 +11,7 @@ fastify.register(storeTimesRoutes, { prefix: '/store-times' });
 fastify.all('/', (req, res) => {
   return res.send({
     '[GET] /store-times': 'Get all store times',
-    '[GET] /store-times/:id': 'Get a store time by id',
+    '[GET] /store-times/day/:day_of_week': 'Get a store time by day of week',
     '[POST] /store-times': 'Create a new store time',
     '[PUT] /store-times/:id': 'Update a store time by id',
     '[DELETE] /store-times/:id': 'Delete a store time by id',
