@@ -15,6 +15,7 @@ const PORT = process.env.PORT || 3000;
 const HOST = process.env.HOST || '0.0.0.0';
 const SWAGGER_USERNAME = process.env.SWAGGER_USERNAME || 'perdiem';
 const SWAGGER_PASSWORD = process.env.SWAGGER_PASSWORD || 'perdiem';
+const DOMAIN = process.env.DOMAIN || 'localhost';
 
 // Define authentication
 const authenticate = {realm: 'Swagger Documentation'}
@@ -36,7 +37,7 @@ fastify.register(swagger, {
       description: 'API documentation for the Coding Challenge REST API',
       version: '1.0.0'
     },
-    host: `${HOST}:${PORT}`,
+    host: process.env.NODE_ENV === 'production' ? DOMAIN : `${HOST}:${PORT}`,
     schemes: ['http', 'https'],
     consumes: ['application/json'],
     produces: ['application/json'],
