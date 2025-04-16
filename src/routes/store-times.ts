@@ -24,13 +24,66 @@ async function writeData(data: StoreTime[]) {
 
 export default async function storeTimesRoutes(fastify: FastifyInstance) {
   // 1. Get all store times
-  fastify.get('/', async (_, reply) => {
+  fastify.get('/', {
+    schema: {
+      description: 'Get all store times',
+      tags: ['store-times'],
+      response: {
+        200: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              id: { type: 'string' },
+              day_of_week: { type: 'number' },
+              is_open: { type: 'boolean' },
+              start_time: { type: 'string' },
+              end_time: { type: 'string' }
+            }
+          }
+        }
+      }
+    }
+  }, async (_, reply) => {
     const data = await readData();
     reply.send(data);
   });
 
   // Get store time by id
-  fastify.get('/:id', async (request, reply) => {
+  fastify.get('/:id', {
+    schema: {
+      description: 'Get store time by ID',
+      tags: ['store-times'],
+      params: {
+        type: 'object',
+        required: ['id'],
+        properties: {
+          id: { type: 'string', description: 'Store time ID' }
+        }
+      },
+      response: {
+        200: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              id: { type: 'string' },
+              day_of_week: { type: 'number' },
+              is_open: { type: 'boolean' },
+              start_time: { type: 'string' },
+              end_time: { type: 'string' }
+            }
+          }
+        },
+        404: {
+          type: 'object',
+          properties: {
+            message: { type: 'string' }
+          }
+        }
+      }
+    }
+  }, async (request, reply) => {
     const { id } = request.params as { id: string };
     const data = await readData();
     const filtered = data.filter(d => d.id === id);
@@ -41,7 +94,44 @@ export default async function storeTimesRoutes(fastify: FastifyInstance) {
   });
 
   // 2. Get store time for specific day
-  fastify.get('/day/:day_of_week', async (request, reply) => {
+  fastify.get('/day/:day_of_week', {
+    schema: {
+      description: 'Get store time by day of week',
+      tags: ['store-times'],
+      params: {
+        type: 'object',
+        required: ['day_of_week'],
+        properties: {
+          day_of_week: {
+            type: 'string',
+            description: 'Day of week (0-6)',
+            pattern: '^[0-6]$'
+          }
+        }
+      },
+      response: {
+        200: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              id: { type: 'string' },
+              day_of_week: { type: 'number' },
+              is_open: { type: 'boolean' },
+              start_time: { type: 'string' },
+              end_time: { type: 'string' }
+            }
+          }
+        },
+        404: {
+          type: 'object',
+          properties: {
+            message: { type: 'string' }
+          }
+        }
+      }
+    }
+  }, async (request, reply) => {
     const { day_of_week } = request.params as { day_of_week: string };
     const data = await readData();
     const filtered = data.filter(d => d.day_of_week === parseInt(day_of_week));
@@ -103,7 +193,33 @@ export default async function storeTimesRoutes(fastify: FastifyInstance) {
   });
 
   // 4. Delete a store time by ID
-  fastify.delete('/:id', async (request, reply) => {
+  fastify.delete('/:id', {
+    schema: {
+      description: 'Delete a store time by ID',
+      tags: ['store-times'],
+      params: {
+        type: 'object',
+        required: ['id'],
+        properties: {
+          id: { type: 'string', description: 'Store time ID' }
+        }
+      },
+      response: {
+        200: {
+          type: 'object',
+          properties: {
+            message: { type: 'string' }
+          }
+        },
+        404: {
+          type: 'object',
+          properties: {
+            message: { type: 'string' }
+          }
+        }
+      }
+    }
+  }, async (request, reply) => {
     const { id } = request.params as { id: string };
     const data = await readData();
     const filtered = data.filter(d => d.id !== id);
@@ -116,6 +232,8 @@ export default async function storeTimesRoutes(fastify: FastifyInstance) {
   // 5. Create a new store time
   fastify.post('/', {
     schema: {
+      description: 'Create a new store time',
+      tags: ['store-times'],
       body: {
         type: 'object',
         required: ['day_of_week', 'is_open', 'start_time', 'end_time'],

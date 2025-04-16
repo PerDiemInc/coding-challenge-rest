@@ -42,8 +42,8 @@ fastify.register(swagger, {
     consumes: ['application/json'],
     produces: ['application/json'],
     tags: [
-      { name: 'root', description: 'Root endpoints' },
-      // Add more tags for your endpoint categories
+      { name: 'store-times', description: 'Store times endpoints (opening hours)' },
+      { name: 'store-overwrite', description: 'Store overwrite endpoints (special overwrites dates)' },
     ],
     securityDefinitions: {
       basicAuth: {
