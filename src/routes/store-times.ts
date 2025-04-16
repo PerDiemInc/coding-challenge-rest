@@ -52,7 +52,46 @@ export default async function storeTimesRoutes(fastify: FastifyInstance) {
   });
 
   // 3. Update a store time by ID
-  fastify.put('/:id', async (request, reply) => {
+  fastify.put('/:id', {
+    schema: {
+      description: 'Update a store time by ID',
+      tags: ['store-times'],
+      params: {
+        type: 'object',
+        required: ['id'],
+        properties: {
+          id: { type: 'string', description: 'Store time ID' }
+        }
+      },
+      body: {
+        type: 'object',
+        properties: {
+          day_of_week: { type: 'number', minimum: 0, maximum: 6 },
+          is_open: { type: 'boolean' },
+          start_time: { type: 'string', pattern: '^([0-1][0-9]|2[0-3]):[0-5][0-9]$' },
+          end_time: { type: 'string', pattern: '^([0-1][0-9]|2[0-3]):[0-5][0-9]$' }
+        }
+      },
+      response: {
+        200: {
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            day_of_week: { type: 'number' },
+            is_open: { type: 'boolean' },
+            start_time: { type: 'string' },
+            end_time: { type: 'string' }
+          }
+        },
+        404: {
+          type: 'object',
+          properties: {
+            message: { type: 'string' }
+          }
+        }
+      }
+    }
+  }, async (request, reply) => {
     const { id } = request.params as { id: string };
     const updates = request.body as Partial<StoreTime>;
     const data = await readData();
@@ -75,7 +114,32 @@ export default async function storeTimesRoutes(fastify: FastifyInstance) {
   });
 
   // 5. Create a new store time
-  fastify.post('/', async (request, reply) => {
+  fastify.post('/', {
+    schema: {
+      body: {
+        type: 'object',
+        required: ['day_of_week', 'is_open', 'start_time', 'end_time'],
+        properties: {
+          day_of_week: { type: 'number', minimum: 0, maximum: 6 },
+          is_open: { type: 'boolean' },
+          start_time: { type: 'string', pattern: '^([0-1][0-9]|2[0-3]):[0-5][0-9]$' },
+          end_time: { type: 'string', pattern: '^([0-1][0-9]|2[0-3]):[0-5][0-9]$' }
+        }
+      },
+      response: {
+        201: {
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            day_of_week: { type: 'number' },
+            is_open: { type: 'boolean' },
+            start_time: { type: 'string' },
+            end_time: { type: 'string' }
+          }
+        }
+      }
+    }
+  }, async (request, reply) => {
     const newItem = request.body as Omit<StoreTime, 'id'>;
     const data = await readData();
     const newEntry = { ...newItem, id: uuidv4() };

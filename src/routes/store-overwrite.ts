@@ -56,7 +56,48 @@ export default async function storeOverwriteRoutes(fastify: FastifyInstance) {
   });
 
   // 3. Update a store overwrite by ID
-  fastify.put('/:id', async (request, reply) => {
+  fastify.put('/:id', {
+    schema: {
+      description: 'Update a store overwrite by ID',
+      tags: ['store-overwrite'],
+      params: {
+        type: 'object',
+        required: ['id'],
+        properties: {
+          id: { type: 'string', description: 'Store overwrite ID' }
+        }
+      },
+      body: {
+        type: 'object',
+        properties: {
+          day: { type: 'number', minimum: 1, maximum: 31 },
+          month: { type: 'number', minimum: 1, maximum: 12 },
+          is_open: { type: 'boolean' },
+          start_time: { type: 'string', pattern: '^([0-1][0-9]|2[0-3]):[0-5][0-9]$' },
+          end_time: { type: 'string', pattern: '^([0-1][0-9]|2[0-3]):[0-5][0-9]$' }
+        }
+      },
+      response: {
+        200: {
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            day: { type: 'number' },
+            month: { type: 'number' },
+            is_open: { type: 'boolean' },
+            start_time: { type: 'string' },
+            end_time: { type: 'string' }
+          }
+        },
+        404: {
+          type: 'object',
+          properties: {
+            message: { type: 'string' }
+          }
+        }
+      }
+    }
+  }, async (request, reply) => {
     const { id } = request.params as { id: string };
     const updates = request.body as Partial<StoreOverwrite>;
     const data = await readData();
@@ -79,16 +120,41 @@ export default async function storeOverwriteRoutes(fastify: FastifyInstance) {
   });
 
   // 5. Create a new store overwrite
-  fastify.post('/', async (request, reply) => {
-    const newItem = request.body as Omit<StoreOverwrite, 'id'>;
-
-    // Validate day and month ranges
-    if (newItem.day < 1 || newItem.day > 31 || newItem.month < 1 || newItem.month > 12) {
-      return reply.status(400).send({
-        message: 'Invalid date: day must be 1-31 and month must be 1-12'
-      });
+  fastify.post('/', {
+    schema: {
+      body: {
+        type: 'object',
+        required: ['day', 'month', 'is_open', 'start_time', 'end_time'],
+        properties: {
+          day: { type: 'number', minimum: 1, maximum: 31 },
+          month: { type: 'number', minimum: 1, maximum: 12 },
+          is_open: { type: 'boolean' },
+          start_time: { type: 'string', pattern: '^([0-1][0-9]|2[0-3]):[0-5][0-9]$' },
+          end_time: { type: 'string', pattern: '^([0-1][0-9]|2[0-3]):[0-5][0-9]$' }
+        }
+      },
+      response: {
+        201: {
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            day: { type: 'number' },
+            month: { type: 'number' },
+            is_open: { type: 'boolean' },
+            start_time: { type: 'string' },
+            end_time: { type: 'string' }
+          }
+        },
+        400: {
+          type: 'object',
+          properties: {
+            message: { type: 'string' }
+          }
+        }
+      }
     }
-
+  }, async (request, reply) => {
+    const newItem = request.body as Omit<StoreOverwrite, 'id'>;
     const data = await readData();
     const newEntry = { ...newItem, id: uuidv4() };
     data.push(newEntry);

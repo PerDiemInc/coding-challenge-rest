@@ -47,5 +47,15 @@
     "is_open": false,
     "start_time": null,
     "end_time": null
+  },
+  {
+    "id": "40b30009-3180-4024-9f2f-aa4c9e86b6ca"
+  },
+  {
+    "day_of_week": 6,
+    "is_open": true,
+    "start_time": "00:13",
+    "end_time": "13:41",
+    "id": "069275b8-8ae3-45e8-882a-464d31d7b79e"
   }
 ]
