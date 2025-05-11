@@ -17,13 +17,15 @@ console.log(`Writing to file, ${storeTimes.length} store times`);
 // write to file
 fs.writeFileSync('./data/store_times.json', JSON.stringify(storeTimes, null, 2));
 
-const storeOverwrites = [];
+
+// Store Overrides
+const storeOverrides = [];
 
 for (let i = 1; i < 8; i++) {
   const isOpen = Math.random() < 0.5;
   const endTime = Math.floor(Math.random() * 24);
   const startTime = endTime - Math.floor(Math.random() * 2);
-  storeOverwrites.push({
+  storeOverrides.push({
     id: uuidv4(),
     // Day is generate from 1-28
     day: Math.floor(Math.random() * 28) + 1,
@@ -35,6 +37,6 @@ for (let i = 1; i < 8; i++) {
     start_time: startTime.toString().padStart(2, '0') + ':00',
   });
 }
-console.log(`Writing to file, ${storeOverwrites.length} store overwrites`);
+console.log(`Writing to file, ${storeOverrides.length} store overwrites`);
 // write to file
-fs.writeFileSync('./data/store_overwrite.json', JSON.stringify(storeOverwrites, null, 2));
+fs.writeFileSync('./data/store_overrides.json', JSON.stringify(storeOverrides, null, 2));

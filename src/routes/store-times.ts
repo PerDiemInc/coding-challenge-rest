@@ -63,16 +63,13 @@ export default async function storeTimesRoutes(fastify: FastifyInstance) {
       },
       response: {
         200: {
-          type: 'array',
-          items: {
-            type: 'object',
-            properties: {
-              id: { type: 'string' },
-              day_of_week: { type: 'number' },
-              is_open: { type: 'boolean' },
-              start_time: { type: 'string' },
-              end_time: { type: 'string' }
-            }
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            day_of_week: { type: 'number' },
+            is_open: { type: 'boolean' },
+            start_time: { type: 'string' },
+            end_time: { type: 'string' }
           }
         },
         404: {
@@ -86,8 +83,8 @@ export default async function storeTimesRoutes(fastify: FastifyInstance) {
   }, async (request, reply) => {
     const { id } = request.params as { id: string };
     const data = await readData();
-    const filtered = data.filter(d => d.id === id);
-    if (!filtered.length) {
+    const [filtered] = data.filter(d => d.id === id);
+    if (!filtered) {
       return reply.status(404).send({ message: 'Not found' });
     }
     return reply.send(filtered);

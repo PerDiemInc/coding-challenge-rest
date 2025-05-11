@@ -3,7 +3,7 @@ import fs from 'fs/promises';
 import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
 
-const FILE_PATH = path.join(__dirname, '../../data/store_overwrite.json');
+const FILE_PATH = path.join(__dirname, '../../data/store_overrides.json');
 
 type StoreOverwrite = {
   id: string;
@@ -23,12 +23,12 @@ async function writeData(data: StoreOverwrite[]) {
   await fs.writeFile(FILE_PATH, JSON.stringify(data, null, 2));
 }
 
-export default async function storeOverwritesRoutes(fastify: FastifyInstance) {
+export default async function storeOverridesRoutes(fastify: FastifyInstance) {
   // 1. Get all store overwrites
   fastify.get('/', {
     schema: {
-      tags: ['store-overwrites'],
-      description: 'Get all store overwrites',
+      tags: ['store-overrides'],
+      description: 'Get all store overrides',
       response: {
         200: {
           type: 'array',
@@ -54,28 +54,25 @@ export default async function storeOverwritesRoutes(fastify: FastifyInstance) {
   // Get store overwrite by id
   fastify.get('/:id', {
     schema: {
-      tags: ['store-overwrites'],
-      description: 'Get store overwrite by ID',
+      tags: ['store-overrides'],
+      description: 'Get store override by ID',
       params: {
         type: 'object',
         required: ['id'],
         properties: {
-          id: { type: 'string', description: 'Store overwrite ID' }
+          id: { type: 'string', description: 'Store override ID' }
         }
       },
       response: {
         200: {
-          type: 'array',
-          items: {
-            type: 'object',
-            properties: {
-              id: { type: 'string' },
-              day: { type: 'number' },
-              month: { type: 'number' },
-              is_open: { type: 'boolean' },
-              start_time: { type: 'string' },
-              end_time: { type: 'string' }
-            }
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            day: { type: 'number' },
+            month: { type: 'number' },
+            is_open: { type: 'boolean' },
+            start_time: { type: 'string' },
+            end_time: { type: 'string' }
           }
         },
         404: {
@@ -89,8 +86,8 @@ export default async function storeOverwritesRoutes(fastify: FastifyInstance) {
   }, async (request, reply) => {
     const { id } = request.params as { id: string };
     const data = await readData();
-    const filtered = data.filter(d => d.id === id);
-    if (!filtered.length) {
+    const [filtered] = data.filter(d => d.id === id);
+    if (!filtered) {
       return reply.status(404).send({ message: 'Not found' });
     }
     return reply.send(filtered);
@@ -99,8 +96,8 @@ export default async function storeOverwritesRoutes(fastify: FastifyInstance) {
   // 2. Get store overwrite for specific date
   fastify.get('/date/:month/:day', {
     schema: {
-      tags: ['store-overwrites'],
-      description: 'Get store overwrites for a specific date',
+      tags: ['store-overrides'],
+      description: 'Get store overrides for a specific date',
       params: {
         type: 'object',
         required: ['month', 'day'],
@@ -148,13 +145,13 @@ export default async function storeOverwritesRoutes(fastify: FastifyInstance) {
   // 3. Update a store overwrite by ID
   fastify.put('/:id', {
     schema: {
-      description: 'Update a store overwrite by ID',
-      tags: ['store-overwrites'],
+      description: 'Update a store override by ID',
+      tags: ['store-overrides'],
       params: {
         type: 'object',
         required: ['id'],
         properties: {
-          id: { type: 'string', description: 'Store overwrite ID' }
+          id: { type: 'string', description: 'Store override ID' }
         }
       },
       body: {
@@ -201,13 +198,13 @@ export default async function storeOverwritesRoutes(fastify: FastifyInstance) {
   // 4. Delete a store overwrite by ID
   fastify.delete('/:id', {
     schema: {
-      tags: ['store-overwrites'],
-      description: 'Delete a store overwrite by ID',
+      tags: ['store-overrides'],
+      description: 'Delete a store override by ID',
       params: {
         type: 'object',
         required: ['id'],
         properties: {
-          id: { type: 'string', description: 'Store overwrite ID' }
+          id: { type: 'string', description: 'Store override ID' }
         }
       },
       response: {
@@ -238,8 +235,8 @@ export default async function storeOverwritesRoutes(fastify: FastifyInstance) {
   // 5. Create a new store overwrite
   fastify.post('/', {
     schema: {
-      tags: ['store-overwrites'],
-      description: 'Create a new store overwrite',
+      tags: ['store-overrides'],
+      description: 'Create a new store override',
       body: {
         type: 'object',
         required: ['day', 'month', 'is_open', 'start_time', 'end_time'],

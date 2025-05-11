@@ -7,7 +7,8 @@ import swaggerUI from '@fastify/swagger-ui'
 import basicAuth from '@fastify/basic-auth'
 
 import storeTimesRoutes from './routes/store-times';
-import storeOverwritesRoutes from './routes/store-overwrites';
+import storeOverridesRoutes from './routes/store-overrides';
+import authRoutes from './routes/auth';
 
 const fastify = Fastify({ logger: true });
 
@@ -43,7 +44,7 @@ fastify.register(swagger, {
     produces: ['application/json'],
     tags: [
       { name: 'store-times', description: 'Store times endpoints (opening hours)' },
-      { name: 'store-overwrites', description: 'Store overwrite endpoints (special overwrites dates)' },
+      { name: 'store-overrides', description: 'Store overrides endpoints (special overwrites dates)' },
     ],
     securityDefinitions: {
       basicAuth: {
@@ -93,7 +94,8 @@ fastify.get('/', {
 })
 
 fastify.register(storeTimesRoutes, { prefix: '/store-times' });
-fastify.register(storeOverwritesRoutes, { prefix: '/store-overwrites' });
+fastify.register(storeOverridesRoutes, { prefix: '/store-overrides' });
+fastify.register(authRoutes, { prefix: '/auth' });
 
 fastify.get('/favicon.ico', (_, res) => {
   try {
