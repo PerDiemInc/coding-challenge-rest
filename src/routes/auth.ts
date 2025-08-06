@@ -1,10 +1,18 @@
 import { FastifyInstance } from 'fastify';
 import bcrypt from 'bcrypt';
 import jwt from '@fastify/jwt';
+import crypto from 'crypto';
+
 // In a real application, you would use a database
 const MOCK_USER = {
   email: 'user@tryperdiem.com',
-  password: bcrypt.hashSync('password', 10)
+  password: bcrypt.hashSync('password', 10),
+  name: 'John Doe',
+  role: 'admin',
+  userId: crypto.randomUUID(),
+  permissions: ['read', 'write', 'delete'],
+  createdAt: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 30 * Math.random()),
+  updatedAt: new Date()
 };
 
 export default async function authRoutes(fastify: FastifyInstance) {
@@ -100,7 +108,13 @@ export default async function authRoutes(fastify: FastifyInstance) {
         200: {
           type: 'object',
           properties: {
-            email: { type: 'string' }
+            email: { type: 'string' },
+            name: { type: 'string' },
+            userId: { type: 'string' },
+            role: { type: 'string' },
+            permissions: { type: 'array', items: { type: 'string' } },
+            createdAt: { type: 'string' },
+            updatedAt: { type: 'string' }
           }
         },
         401: {
@@ -113,9 +127,19 @@ export default async function authRoutes(fastify: FastifyInstance) {
     }
   }, async (request, reply) => {
     try {
-      await request.jwtVerify();
-      return { email: (request.user as { email: string }).email };
+      const user = await request.jwtVerify();
+      console.log(user);
+      return {
+        email: (request.user as { email: string }).email,
+        name: MOCK_USER.name,
+        userId: MOCK_USER.userId,
+        role: MOCK_USER.role,
+        permissions: MOCK_USER.permissions,
+        createdAt: MOCK_USER.createdAt,
+        updatedAt: MOCK_USER.updatedAt
+      };
     } catch (err) {
+      console.error(err);
       reply.status(401).send({ message: 'Invalid token' });
     }
   });
